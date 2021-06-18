@@ -91,6 +91,7 @@ public final class Main {
 
     // Setup Spark Routes
     //Spark.post("/count", new CountHandler());
+    Spark.post("/test", new TestHandler());
     Spark.get("/", new HomeGUI(), freeMarker);
   }
 
@@ -133,6 +134,23 @@ public final class Main {
 //      return gson.toJson(variables);
 //    }
 //  }
+
+  /**
+   * Adds a number to the database's count and returns the count.
+   */
+  public static class TestHandler implements Route {
+    @Override
+    public Object handle(Request request, Response response) throws Exception {
+
+      JSONObject data = new JSONObject(request.body());
+      String text = data.getString("text");
+
+      Map<String, Object> variables = ImmutableMap.of("reply", text + " tested");
+
+      Gson gson = new Gson();
+      return gson.toJson(variables);
+    }
+  }
 
   /**
    * Display an error page when an exception occurs in the server.
