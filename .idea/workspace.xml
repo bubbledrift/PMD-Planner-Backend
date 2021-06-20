@@ -6,9 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ae3977b4-2cd8-4588-a2ed-4b025fa3d128" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pokemonapi/HomeGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pokemonapi/HomeGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pokemonapi/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pokemonapi/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/spark/template/freemarker/main.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/spark/template/freemarker/main.ftl" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,6 +78,17 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
@@ -102,7 +110,9 @@
       <workItem from="1623970728914" duration="189000" />
       <workItem from="1623970931742" duration="97000" />
       <workItem from="1623971041513" duration="698000" />
-      <workItem from="1624050330353" duration="2013000" />
+      <workItem from="1624050330353" duration="2046000" />
+      <workItem from="1624059211613" duration="7000" />
+      <workItem from="1624123272711" duration="1330000" />
     </task>
     <servers />
   </component>
