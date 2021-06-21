@@ -93,16 +93,16 @@ public final class Main {
     FreeMarkerEngine freeMarker = createEngine();
 
     // Setup Spark Routes
-    Spark.post("/updatePopularity", new PopularityHandler());
-    //Spark.post("/test", new TestHandler());
+    Spark.post("/updatePopularity", new UpdatePopularityHandler());
+    Spark.post("/checkPopularity", new CheckPopularityHandler());
     Spark.get("/", new HomeGUI(), freeMarker);
   }
 
   /**
-   * Updates the popularity of pokemon and returns a list of pokemon from most to least popular.
+   * Updates the popularity of pokemon by getting which pokemon were added to a user's team.
    * Request's body should include a list of pokemon to used in a team.
    */
-  public static class PopularityHandler implements Route {
+  public static class UpdatePopularityHandler implements Route {
     @Override
     public Object handle(Request request, Response response) throws Exception {
 
@@ -122,6 +122,25 @@ public final class Main {
         prepStatement.executeUpdate();
         prepStatement.close();
       }
+
+      Map<String, Object> variables = ImmutableMap.of("success", "success");
+
+      Gson gson = new Gson();
+      return gson.toJson(variables);
+    }
+  }
+
+  /**
+   * Gets a list of the top 100 most popular/most used pokemon.
+   * Request's body should be empty.
+   */
+  public static class CheckPopularityHandler implements Route {
+    @Override
+    public Object handle(Request request, Response response) throws Exception {
+
+      Class.forName("org.sqlite.JDBC");
+      String urlToDB = "jdbc:sqlite:data/Gen3/Emerald/EmeraldPopularityTest.sqlite3";
+      Connection conn = DriverManager.getConnection(urlToDB);
 
       //Gets pokemon ordered by how many times they've been used in a team.
       PreparedStatement prepStatement = conn.prepareStatement(
