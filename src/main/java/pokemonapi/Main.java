@@ -9,10 +9,13 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import spark.ExceptionHandler;
 import spark.Request;
@@ -90,67 +93,72 @@ public final class Main {
     FreeMarkerEngine freeMarker = createEngine();
 
     // Setup Spark Routes
-    //Spark.post("/count", new CountHandler());
-    Spark.post("/test", new TestHandler());
+    Spark.post("/updatePopularity", new PopularityHandler());
+    //Spark.post("/test", new TestHandler());
     Spark.get("/", new HomeGUI(), freeMarker);
   }
 
-//  /**
-//   * Adds a number to the database's count and returns the count.
-//   */
-//  public static class CountHandler implements Route {
-//    @Override
-//    public Object handle(Request request, Response response) throws Exception {
-//
-//      JSONObject data = new JSONObject(request.body());
-//      int number = data.getInt("toAdd");
-//
-//      //Adds the given number to the current count
-//      Class.forName("org.sqlite.JDBC");
-//      String urlToDB = "jdbc:sqlite:data/counter.sqlite3";
-//      Connection conn = DriverManager.getConnection(urlToDB);
-//      PreparedStatement addToCount = conn.prepareStatement(
-//          "UPDATE counter SET cnt = cnt + " + number + ";"
-//      );
-//      addToCount.executeUpdate();
-//      addToCount.close();
-//
-//      //Gets the current count
-//      PreparedStatement getCount = conn.prepareStatement(
-//          "SELECT cnt FROM counter;"
-//      );
-//      ResultSet rs = getCount.executeQuery();
-//
-//      int count = -1;
-//      while (rs.next()) {
-//        count = rs.getInt(1);
-//      }
-//      rs.close();
-//      getCount.close();
-//
-//      Map<String, Object> variables = ImmutableMap.of("count", count);
-//
-//      Gson gson = new Gson();
-//      return gson.toJson(variables);
-//    }
-//  }
-
   /**
-   * Adds a number to the database's count and returns the count.
+   * Updates the popularity of pokemon and returns a list of pokemon from most to least popular.
+   * Request's body should include a list of pokemon to used in a team.
    */
-  public static class TestHandler implements Route {
+  public static class PopularityHandler implements Route {
     @Override
     public Object handle(Request request, Response response) throws Exception {
 
       JSONObject data = new JSONObject(request.body());
-      String text = data.getString("text");
+      JSONArray toIncrement = data.getJSONArray("toIncrement");
 
-      Map<String, Object> variables = ImmutableMap.of("reply", text + " tested");
+      Class.forName("org.sqlite.JDBC");
+      String urlToDB = "jdbc:sqlite:data/Gen3/Emerald/EmeraldPopularityTest.sqlite3";
+      Connection conn = DriverManager.getConnection(urlToDB);
+
+      //For each pokemon, go into the database and increment it's uses count.
+      for (int i = 0; i < toIncrement.length(); i++) {
+        String pokemon = toIncrement.getString(i);
+        PreparedStatement prepStatement = conn.prepareStatement(
+            "UPDATE EmeraldPopularity SET Uses = Uses + 1 WHERE Name=\"" + pokemon + "\";"
+        );
+        prepStatement.executeUpdate();
+        prepStatement.close();
+      }
+
+      //Gets pokemon ordered by how many times they've been used in a team.
+      PreparedStatement prepStatement = conn.prepareStatement(
+          "SELECT Name FROM EmeraldPopularity ORDER BY Uses DESC LIMIT 100"
+      );
+      ResultSet rs = prepStatement.executeQuery();
+
+      ArrayList byPopularity = new ArrayList<String>();
+      while (rs.next()) {
+        byPopularity.add(rs.getString(1));
+      }
+      rs.close();
+      prepStatement.close();
+
+      Map<String, Object> variables = ImmutableMap.of("byPopular", byPopularity);
 
       Gson gson = new Gson();
       return gson.toJson(variables);
     }
   }
+
+//  /**
+//   * Adds a number to the database's count and returns the count.
+//   */
+//  public static class TestHandler implements Route {
+//    @Override
+//    public Object handle(Request request, Response response) throws Exception {
+//
+//      JSONObject data = new JSONObject(request.body());
+//      String text = data.getString("text");
+//
+//      Map<String, Object> variables = ImmutableMap.of("reply", text + " tested");
+//
+//      Gson gson = new Gson();
+//      return gson.toJson(variables);
+//    }
+//  }
 
   /**
    * Display an error page when an exception occurs in the server.

@@ -13,7 +13,7 @@ public class HomeGUI implements TemplateViewRoute {
   @Override
   public ModelAndView handle(Request request, Response response) throws Exception {
     Map<String,String> map = new HashMap<>();
-    map.put("content", "Hello");
+    map.put("content", "Hello :)");
     map.put("title", "Pokemon Planner");
     return new ModelAndView(map, "main.ftl");
   }
