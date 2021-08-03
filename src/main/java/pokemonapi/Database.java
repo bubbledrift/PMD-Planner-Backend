@@ -12,7 +12,7 @@ public class Database {
 
     public Database() throws SQLException, ClassNotFoundException {
         Class.forName("org.sqlite.JDBC");
-        String urlToDB = "jdbc:sqlite:data/Gen3/EmeraldPopularityTest.sqlite3";
+        String urlToDB = "jdbc:sqlite:data/RTDXPopularity.sqlite3";
         this.connection = DriverManager.getConnection(urlToDB);
     }
 

@@ -8,13 +8,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import spark.ExceptionHandler;
@@ -29,15 +27,6 @@ import freemarker.template.Configuration;
 public final class Main {
 
   private static final int DEFAULT_PORT = 4567;
-
-//  private static Database db;
-//  static {
-//    try {
-//      db = new Database();
-//    } catch (SQLException | ClassNotFoundException throwables) {
-//      throwables.printStackTrace();
-//    }
-//  }
 
   public static void main(String[] args) throws Exception {
     new Main(args).run();
@@ -94,13 +83,13 @@ public final class Main {
 
     // Setup Spark Routes
     Spark.post("/updatePopularity", new UpdatePopularityHandler());
-    Spark.post("/checkPopularity", new CheckPopularityHandler());
+    Spark.get("/getPopularity", new GetPopularityHandler());
     Spark.get("/", new HomeGUI(), freeMarker);
   }
 
   /**
    * Updates the popularity of pokemon by getting which pokemon were added to a user's team.
-   * Request's body should include a list of pokemon to used in a team.
+   * Request's body should include a list of pokemon used in a team.
    */
   public static class UpdatePopularityHandler implements Route {
     @Override
@@ -110,47 +99,59 @@ public final class Main {
       JSONArray toIncrement = data.getJSONArray("toIncrement");
 
       Class.forName("org.sqlite.JDBC");
-      String urlToDB = "jdbc:sqlite:data/Gen3/Emerald/EmeraldPopularityTest.sqlite3";
+      String urlToDB = "jdbc:sqlite:data/RTDXPopularity.sqlite3";
       Connection conn = DriverManager.getConnection(urlToDB);
+
+      Map<String, Object> variables = ImmutableMap.of("success", "success");
+      Gson gson = new Gson();
+
+
+      //If the length is longer than 10, remove as it could be a bot.
+      if (toIncrement.length() > 10) {
+        return gson.toJson(variables);
+      }
 
       //For each pokemon, go into the database and increment it's uses count.
       for (int i = 0; i < toIncrement.length(); i++) {
-        String pokemon = toIncrement.getString(i);
+        String PokeNumber = toIncrement.getString(i);
+        System.out.println(PokeNumber);
         PreparedStatement prepStatement = conn.prepareStatement(
-            "UPDATE EmeraldPopularity SET Uses = Uses + 1 WHERE Name=\"" + pokemon + "\";"
+            "UPDATE Popularity SET Popularity = Popularity + 1 WHERE Number=\"" + PokeNumber + "\";"
         );
         prepStatement.executeUpdate();
         prepStatement.close();
       }
 
-      Map<String, Object> variables = ImmutableMap.of("success", "success");
 
-      Gson gson = new Gson();
       return gson.toJson(variables);
     }
   }
 
   /**
-   * Gets a list of the top 100 most popular/most used pokemon.
-   * Request's body should be empty.
+   * Gets a list of the popular/most used pokemon.
    */
-  public static class CheckPopularityHandler implements Route {
+  public static class GetPopularityHandler implements Route {
     @Override
     public Object handle(Request request, Response response) throws Exception {
 
       Class.forName("org.sqlite.JDBC");
-      String urlToDB = "jdbc:sqlite:data/Gen3/Emerald/EmeraldPopularityTest.sqlite3";
+      String urlToDB = "jdbc:sqlite:data/RTDXPopularity.sqlite3";
       Connection conn = DriverManager.getConnection(urlToDB);
 
       //Gets pokemon ordered by how many times they've been used in a team.
       PreparedStatement prepStatement = conn.prepareStatement(
-          "SELECT Name FROM EmeraldPopularity ORDER BY Uses DESC LIMIT 100"
+          "SELECT Number FROM Popularity ORDER BY Popularity DESC"
       );
       ResultSet rs = prepStatement.executeQuery();
 
-      ArrayList byPopularity = new ArrayList<String>();
+      Map byPopularity = new HashMap<String, Object>();
+      int i = 1;
+
       while (rs.next()) {
-        byPopularity.add(rs.getString(1));
+
+        byPopularity.put(rs.getString(1), i);
+
+        i++;
       }
       rs.close();
       prepStatement.close();
@@ -161,23 +162,6 @@ public final class Main {
       return gson.toJson(variables);
     }
   }
-
-//  /**
-//   * Adds a number to the database's count and returns the count.
-//   */
-//  public static class TestHandler implements Route {
-//    @Override
-//    public Object handle(Request request, Response response) throws Exception {
-//
-//      JSONObject data = new JSONObject(request.body());
-//      String text = data.getString("text");
-//
-//      Map<String, Object> variables = ImmutableMap.of("reply", text + " tested");
-//
-//      Gson gson = new Gson();
-//      return gson.toJson(variables);
-//    }
-//  }
 
   /**
    * Display an error page when an exception occurs in the server.
