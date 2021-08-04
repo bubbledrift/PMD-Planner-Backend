@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ae3977b4-2cd8-4588-a2ed-4b025fa3d128" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/data/logo.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
@@ -36,7 +37,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../JuniorCS/maps-3-4" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/data" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.10917032" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -44,6 +45,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\miruy\Desktop\Personal Work and Projects\PokemonTeam\pokemonapi\data" />
       <recent name="C:\Users\miruy\Desktop\Personal Work and Projects\PokemonTeam\pokemonapi\src\main\resources" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -110,6 +112,7 @@
       <workItem from="1627759637009" duration="8194000" />
       <workItem from="1628030755203" duration="1186000" />
       <workItem from="1628114227671" duration="7000" />
+      <workItem from="1628114437420" duration="528000" />
     </task>
     <servers />
   </component>
