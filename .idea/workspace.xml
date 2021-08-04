@@ -7,13 +7,6 @@
     <list default="true" id="ae3977b4-2cd8-4588-a2ed-4b025fa3d128" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pokemonapi/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pokemonapi/Database.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pokemonapi/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pokemonapi/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/pokemonapi/Database.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/pokemonapi/Database.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/pokemonapi/Main$CheckPopularityHandler.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/pokemonapi/Main$ExceptionPrinter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/pokemonapi/Main$ExceptionPrinter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/pokemonapi/Main$UpdatePopularityHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/pokemonapi/Main$UpdatePopularityHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/pokemonapi/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/pokemonapi/Main.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -115,7 +108,8 @@
       <workItem from="1624228883825" duration="4535000" />
       <workItem from="1624298515208" duration="2842000" />
       <workItem from="1627759637009" duration="8194000" />
-      <workItem from="1628030755203" duration="1017000" />
+      <workItem from="1628030755203" duration="1186000" />
+      <workItem from="1628114227671" duration="7000" />
     </task>
     <servers />
   </component>

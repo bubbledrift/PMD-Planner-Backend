@@ -1,6 +1,6 @@
 # PMD Planner Backend
 
-This is the backend for my site hosted here:
+This is the backend for my site hosted [here.](pmdplanner.com)
 
 It's main responsibility currently is to keep track
 of pokemon popularity and relay that to the frontend.
